@@ -16,7 +16,7 @@ class Memo(models.Model):
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='sender_dept', blank=False, null=False)
     receivers = models.ManyToManyField(
-        Department, related_name='memos', blank=False,)
+        Department, related_name='memos',)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -39,16 +39,6 @@ class Staff(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-# class Attachments(models.Model):
-#     memo = models.ForeignKey(
-#         Memo, on_delete=models.CASCADE, related_name='media')
-#     images = models.ImageField(
-#         upload_to='pictures/', verbose_name='Property Picture', null=False)
-
-#     def __str__(self):
-#         return f'{self.id}'
 
 
 class StarMemo(models.Model):
