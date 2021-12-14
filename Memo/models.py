@@ -15,8 +15,7 @@ class Memo(models.Model):
     body = models.TextField()
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='sender_dept', blank=False, null=False)
-    receivers = models.ManyToManyField(
-        Department, related_name='memos',)
+    receivers = models.ManyToManyField(Department, related_name='memos',)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -29,13 +28,8 @@ class Memo(models.Model):
 class Staff(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='users')
-    department = models.OneToOneField(
+    department = models.ForeignKey(
         Department, on_delete=models.CASCADE, related_name='departments')
-    # admin = models.OneToOneField(
-    #     User, on_delete=models.CASCADE, related_name='admins')
-
-    # class Meta:
-    #     unique_together = ('user', 'department')
 
     def __str__(self):
         return self.user.username

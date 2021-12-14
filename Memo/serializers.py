@@ -8,14 +8,14 @@ from .models import Memo, Department, StarMemo, ReadMemo, Staff
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = ('name', 'pk')
+        fields = ('name', 'id')
 
 
 class StaffSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Staff
-        fields = ('department',)
+        fields = ('department', 'user')
         depth = 1
 
 
@@ -47,6 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class MemoSerializer(serializers.ModelSerializer):
     sender = UserSerializer(read_only=True)
+    receivers = DepartmentSerializer(read_only=True)
 
     class Meta:
         model = Memo
@@ -64,7 +65,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email',
                   'password', 'first_name', 'last_name', 'is_superuser')
         extra_kwargs = {'password': {'write_only': True},
-                        'is_superuser': {}}
+                        'is_superuser': {'read_only'}}
 
     def create(self, validated_data):
         user = User.objects.create_user(
